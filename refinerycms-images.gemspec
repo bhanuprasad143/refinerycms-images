@@ -22,6 +22,6 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'dragonfly',        '~> 0.9.8'
   s.add_dependency 'rack-cache',       '>= 0.5.3'
-  s.add_dependency 'refinerycms-core', version
+  s.add_dependency 'refinerycms-core', '2.0.2'
 end
 
