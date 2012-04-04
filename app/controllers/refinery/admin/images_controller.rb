@@ -29,7 +29,10 @@ module ::Refinery
           extra_condition[1] = nil if extra_condition[1] == "nil"
         end
 
-        find_all_images(({extra_condition[0].to_sym => extra_condition[1]} if extra_condition.present?))
+        conditions = {:site_id => current_site.id}
+        conditions.merge!(extra_condition[0].to_sym => extra_condition[1])  if extra_condition.present?
+
+        find_all_images(conditions)
         search_all_images if searching?
 
         paginate_images
@@ -41,10 +44,10 @@ module ::Refinery
         @images = []
         begin
           unless params[:image].present? and params[:image][:image].is_a?(Array)
-            @images << (@image = ::Refinery::Image.create(params[:image]))
+            @images << (@image = ::Refinery::Image.create(params[:image].merge(:site_id => current_site.id)))
           else
             params[:image][:image].each do |image|
-              @images << (@image = ::Refinery::Image.create(:image => image))
+              @images << (@image = ::Refinery::Image.create(:image => image, :site_id => current_site.id))
             end
           end
         rescue Dragonfly::FunctionManager::UnableToHandle
@@ -108,3 +111,4 @@ module ::Refinery
     end
   end
 end
+
